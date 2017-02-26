@@ -1,9 +1,8 @@
 // Loads the property listing asset dynamically based on the query parameters in the request.
 function body(request, state) {
   const postcode = request.query.postcode;
-  const pageNumber = request.query.page_number;
-  let filename = postcode;
-  if (pageNumber != null) filename += '-page-' + pageNumber;
+  const pageNumber = request.query.page_number || 1;
+  let filename = postcode + '-page-' + pageNumber;
   let body, headers, statusCode = 200;
   try {
     const asset = require(process.cwd() + '/assets/property-listings/' + filename.toLowerCase() + '.json');
