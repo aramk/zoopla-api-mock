@@ -4,17 +4,19 @@ function body(request, state) {
   const pageNumber = request.query.page_number;
   let filename = postcode;
   if (pageNumber != null) filename += '-page-' + pageNumber;
-  let body, headers;
+  let body, headers, statusCode = 200;
   try {
     const asset = require(process.cwd() + '/assets/property-listings/' + filename.toLowerCase() + '.json');
     body = JSON.stringify(asset);
     headers = {'Content-Type': 'application/json'};
   } catch(err) {
     console.error(err);
+    statusCode = 500;
     body = err.toString();
   }
   return {
     headers,
+    statusCode,
     body
   };
 }
